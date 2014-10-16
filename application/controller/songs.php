@@ -80,4 +80,40 @@ class Songs extends Controller
         // where to go after song has been deleted
         header('location: ' . URL . 'songs/index');
     }
+    public function editSong($song_id)
+    {
+
+        // if we have an id of a song that should be deleted
+        if (isset($song_id)) {
+            // load model, perform an action on the model
+            $songs_model = $this->loadModel('SongsModel');
+            $song = $songs_model->getSong($song_id);
+        
+           /** echo"<pre>[D E B U G]";
+            var_dump($song);
+            echo '</pre>';
+            die();
+        */
+
+        // load views. within the views we can echo out $songs and $amount_of_songs easily
+        require 'application/views/_templates/header.php';
+        require 'application/views/songs/edit.php';
+        require 'application/views/_templates/footer.php';
+    }else{  header('location: ' . URL . 'songs/index');}
 }
+ public function updateSong()
+    {
+
+        // if we have POST data to create a new song entry
+        if (isset($_POST["submit_update_song"])) {
+            // load model, perform an action on the model
+            $songs_model = $this->loadModel('SongsModel');
+            $songs_model->updateSong($_POST[song_id],$_POST["artist"], $_POST["track"],  $_POST["link"]);
+        }
+
+        // where to go after song has been added
+        header('location: ' . URL . 'songs/index');
+    }
+
+
+    }
